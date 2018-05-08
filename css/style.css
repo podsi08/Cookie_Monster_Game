@@ -81,6 +81,10 @@ section#over .info span {
   font-size: 20px;
 }
 
+section#over .info .info__score {
+  color: darkred;
+}
+
 section#over .photo {
   width: 200px;
   margin-top: 5px;

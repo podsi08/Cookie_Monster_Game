@@ -7,7 +7,7 @@ function Game() {
     this.cookie = new Cookie();
     this.score = 0;
 
-    //przeliczanie indeksu x i y na ideks w tablicy jednowymiarowej (0, 99)
+    //przeliczanie indeksu x i y na indeks w tablicy jednowymiarowej (0, 99)
     this.index = function(x, y) {
         return x + (y * 10);
     };
@@ -30,7 +30,7 @@ function Game() {
         //zapisujemy zwracany przez metodę id do zmiennej aby potem móc go usunąć
         this.idSetInterval = setInterval(function(){
             self.moveMonster()
-        }, 250);
+        }, 500);
     };
 
     this.moveMonster = function() {
@@ -118,7 +118,9 @@ function Game() {
 
             //wyświetlamy komunikat o końcu gry
             var over = document.getElementById("over");
+            var scoreInfo = document.querySelector(".info__score");
             over.classList.remove("invisible");
+            scoreInfo.innerText = "Your score: " + this.score;
             return true;
         }
         return false;
