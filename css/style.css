@@ -62,6 +62,23 @@ section#score div {
   background-position: center;
 }
 
+.btn {
+    width: 120px;
+    height: 40px;
+    text-align: center;
+    text-transform: uppercase;
+    border: 2px solid #0d0b4b;
+    border-radius: 7px;
+    font-weight: bold;
+    line-height: 40px;
+    cursor: pointer;
+}
+
+.start_btn {
+    background-color: rgb(88, 174, 255);
+    margin: 40px auto;
+}
+
 section#over {
   position: fixed;
   width: 100%;
@@ -76,6 +93,11 @@ section#over {
 section#over div {
   display: block;
   margin: auto;
+}
+
+section#over .new_game_btn {
+    background-color: #d3d3d3;
+    margin: 50px auto;
 }
 
 section#over .info {
@@ -96,6 +118,7 @@ h1, h3 {
 section#over .info div {
     text-align: center;
     margin-top: 5px;
+    font-size: 18px;
 }
 
 section#over .info h3 {

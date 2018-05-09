@@ -23,6 +23,16 @@ function Game() {
         this.board[this.index(this.cookie.x, this.cookie.y)].classList.add("cookie");
     };
 
+    //funkcja, która po określonym czasie nadpisuje interwał
+    this.changeInterval = function(timeout, interval) {
+        var self = this;
+        setTimeout(function() {
+            clearInterval(self.idSetInterval);
+            self.idSetInterval = setInterval(function(){
+                self.moveMonster()
+            }, interval);
+        }, timeout);
+    };
 
     this.startGame = function() {
         var self = this;
@@ -30,7 +40,12 @@ function Game() {
         //zapisujemy zwracany przez metodę id do zmiennej aby potem móc go usunąć
         this.idSetInterval = setInterval(function(){
             self.moveMonster()
-        }, 300);
+        }, 400);
+        this.changeInterval(15000, 320);
+        this.changeInterval(30000, 240);
+        this.changeInterval(45000, 180);
+        this.changeInterval(60000, 120);
+
     };
 
     this.moveMonster = function() {
@@ -82,6 +97,11 @@ function Game() {
         }
     };
 
+    this.setScore = function() {
+        var scoreOnPage = document.querySelector("#score h2 span");
+        scoreOnPage.innerText = this.score;
+    };
+
     //sprawdzanie kolizji z ciastkiem
     this.checkCookieCollision = function() {
         //pozycja potwora i ciastka musi być taka sama
@@ -94,9 +114,8 @@ function Game() {
             //dodajemy punkty
             this.score++;
 
-            //punkty zostają wyświetlone na stronie
-            var scoreOnPage = document.querySelector("#score h2 span");
-            scoreOnPage.innerText = this.score;
+            //aktualizacja wyniku na stronie
+            this.setScore();
 
             //dodajemy nowe ciastko
             this.cookie = new Cookie();
@@ -160,9 +179,17 @@ function Game() {
             scoreInfo.innerText = this.score;
             rankingInfo.innerText = rankingPlace + 1;
             bestScore.innerText = results[0];
+
             return true;
         }
         return false;
+    };
+
+    this.resetGame = function () {
+        this.monster = new Monster();
+        this.score = 0;
+        clearInterval(this.idSetInterval);
+        this.setScore();
     }
 }
 
