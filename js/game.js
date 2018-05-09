@@ -95,7 +95,7 @@ function Game() {
             this.score++;
 
             //punkty zostają wyświetlone na stronie
-            var scoreOnPage = document.querySelector("#score strong");
+            var scoreOnPage = document.querySelector("#score h2 span");
             scoreOnPage.innerText = this.score;
 
             //dodajemy nowe ciastko
@@ -135,18 +135,20 @@ function Game() {
             //pobieram wyniki z local storage
             var results = this.loadResultsFromLocalStorage();
 
-            //zapisuję wynik do tablicy
-            results.push(this.score);
+            //zapisuję wynik do tablicy, jeżeli jeszcze nie ma takiego wyniku
+            if (results.indexOf(this.score) === -1) {
+                results.push(this.score);
 
-            //sortuję tabicę i znajduje miejsce na którym jest nowy wynik
-            results.sort(function (a, b) {
-                return b - a;
-            });
+                //sortuję tabicę i nadpisuję ją do local storage
+                results.sort(function (a, b) {
+                    return b - a;
+                });
+
+                this.saveScoreToLocalStorage(results);
+
+            }
 
             var rankingPlace = results.indexOf(this.score);
-
-            //nadpisuję tablicę z wynikami do local storage
-            this.saveScoreToLocalStorage(results);
 
             //wyświetlamy komunikat o końcu gry
             var over = document.getElementById("over");
