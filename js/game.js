@@ -30,7 +30,7 @@ function Game() {
         //zapisujemy zwracany przez metodę id do zmiennej aby potem móc go usunąć
         this.idSetInterval = setInterval(function(){
             self.moveMonster()
-        }, 500);
+        }, 300);
     };
 
     this.moveMonster = function() {
@@ -106,6 +106,22 @@ function Game() {
         }
     };
 
+    //zapisywanie do local storage
+    this.saveScoreToLocalStorage = function(results) {
+        localStorage.setItem('cookie_monster', JSON.stringify(results));
+    };
+
+    //pobieranie wyników z local storage
+    this.loadResultsFromLocalStorage = function() {
+        var storageResults = JSON.parse(localStorage.getItem('cookie_monster'));
+
+        if(storageResults === null) {
+            return [];
+        } else {
+            return storageResults;
+        }
+    };
+
     this.gameOver = function() {
         //jeżeli potwór wyjdzie za planszę - koniec gry
         if(this.monster.x < 0 || this.monster.x > 9 || this.monster.y < 0 || this.monster.y > 9) {
@@ -116,11 +132,32 @@ function Game() {
             //ukrywamy potwora
             this.hideVisibleMonster();
 
+            //pobieram wyniki z local storage
+            var results = this.loadResultsFromLocalStorage();
+
+            //zapisuję wynik do tablicy
+            results.push(this.score);
+
+            //sortuję tabicę i znajduje miejsce na którym jest nowy wynik
+            results.sort(function (a, b) {
+                return b - a;
+            });
+
+            var rankingPlace = results.indexOf(this.score);
+
+            //nadpisuję tablicę z wynikami do local storage
+            this.saveScoreToLocalStorage(results);
+
             //wyświetlamy komunikat o końcu gry
             var over = document.getElementById("over");
             var scoreInfo = document.querySelector(".info__score");
+            var rankingInfo = document.querySelector(".ranking_place");
+            var bestScore = document.querySelector(".ranking_best");
+
             over.classList.remove("invisible");
-            scoreInfo.innerText = "Your score: " + this.score;
+            scoreInfo.innerText = this.score;
+            rankingInfo.innerText = rankingPlace + 1;
+            bestScore.innerText = results[0];
             return true;
         }
         return false;
